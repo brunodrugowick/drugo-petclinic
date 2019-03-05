@@ -1,4 +1,4 @@
-package drugopetclinic;
+package com.drugowick.drugopetclinic;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
