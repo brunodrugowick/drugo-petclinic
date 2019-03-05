@@ -3,7 +3,7 @@
     <parent>
         <artifactId>drugo-petclinic</artifactId>
         <groupId>com.drugowick</groupId>
-        <version>0.0.3</version>
+        <version>0.0.4-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,7 +13,7 @@
         <dependency>
             <artifactId>petclinic-data</artifactId>
             <groupId>com.drugowick</groupId>
-            <version>0.0.3</version>
+            <version>0.0.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

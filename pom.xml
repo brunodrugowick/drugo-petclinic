@@ -14,7 +14,7 @@
     </parent>
     <groupId>com.drugowick</groupId>
     <artifactId>drugo-petclinic</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
     <name>drugo-petclinic</name>
     <description>Drugo Pet Clinic Project</description>
 
@@ -41,7 +41,7 @@
 
     <scm>
         <developerConnection>scm:git:git@github.com:brunodrugowick/drugo-petclinic.git</developerConnection>
-    <tag>drugo-petclinic-0.0.3</tag>
+    <tag>HEAD</tag>
   </scm>
 
 </project>
