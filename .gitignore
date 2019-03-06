@@ -24,3 +24,14 @@ HELP.md
 /nbdist/
 /.nb-gradle/
 /build/
+*.class
+petclinic-data/target/maven-archiver/pom.properties
+petclinic-data/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+*.lst
+petclinic-data/target/petclinic-data-0.0.3.jar
+petclinic-web/target/surefire-reports/TEST-com.drugowick.drugopetclinic.DrugoPetclinicApplicationTests.xml
+petclinic-web/target/surefire-reports/com.drugowick.drugopetclinic.DrugoPetclinicApplicationTests.txt
+petclinic-web/target/petclinic-web-0.0.3.jar.original
+petclinic-web/target/petclinic-web-0.0.3.jar
+petclinic-web/target/maven-archiver/pom.properties
+petclinic-web/target/classes/application.properties
