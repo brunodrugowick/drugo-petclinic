@@ -4,8 +4,6 @@ import com.drugowick.drugopetclinic.model.Owner;
 import com.drugowick.drugopetclinic.model.Vet;
 import com.drugowick.drugopetclinic.services.OwnerService;
 import com.drugowick.drugopetclinic.services.VetService;
-import com.drugowick.drugopetclinic.services.map.OwnerServiceMap;
-import com.drugowick.drugopetclinic.services.map.VetServiceMap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +14,9 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
 
-    public DataLoader() {
-        this.ownerService = new OwnerServiceMap();
-        this.vetService = new VetServiceMap();
+    public DataLoader(OwnerService ownerService, VetService vetService) {
+        this.ownerService = ownerService;
+        this.vetService = vetService;
     }
 
     @Override
@@ -36,7 +34,6 @@ public class DataLoader implements CommandLineRunner {
 
         ownerService.save(owner1);
         ownerService.save(owner2);
-        System.out.println("Owners loaded.");
 
         Vet vet1 = new Vet();
         vet1.setId(1L);
@@ -50,10 +47,13 @@ public class DataLoader implements CommandLineRunner {
 
         vetService.save(vet1);
         vetService.save(vet2);
-        System.out.println("Vets loaded.");
 
         for (Vet vet : vetService.findAll()) {
-            System.out.println(vet.getLastName());
+            System.out.println("Loaded vet: " + vet.getFirstName() + " " + vet.getLastName());
+        }
+
+        for (Owner owner : ownerService.findAll()) {
+            System.out.println("Loaded owner: " + owner.getFirstName() + " " + owner.getLastName());
         }
     }
 }
