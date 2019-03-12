@@ -45,11 +45,11 @@ public class DataLoader implements CommandLineRunner {
         vetService.save(vet2);
 
         for (Vet vet : vetService.findAll()) {
-            System.out.println("Loaded vet: " + vet.getFirstName() + " " + vet.getLastName());
+            System.out.println("Loaded vet: " + vet.toString());
         }
 
         for (Owner owner : ownerService.findAll()) {
-            System.out.println("Loaded owner: " + owner.getFirstName() + " " + owner.getLastName());
+            System.out.println("Loaded owner: " + owner.toString());
         }
     }
 }

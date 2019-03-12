@@ -4,7 +4,7 @@ import com.drugowick.drugopetclinic.model.BaseEntity;
 
 import java.util.*;
 
-public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> {
+public abstract class AbstractMapService<T extends BaseEntity> {
 
     protected Map<Long, T> map = new HashMap<>();
 
@@ -12,25 +12,24 @@ public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> 
         return new HashSet<>(map.values());
     }
 
-    T findById(ID id) {
+    T findById(Long id) {
         return map.get(id);
     }
 
     T save(T object) {
 
-        if(object != null) {
-            if(object.getId() == null) {
-                object.setId(getNextId());
-            }
-            map.put(object.getId(), object);
-        } else {
+        if (object == null)
             throw new RuntimeException("Object cannot be null.");
+
+        if(object.getId() == null) {
+            object.setId(getNextId());
         }
+        map.put(object.getId(), object);
 
         return object;
     }
 
-    void deleteById(ID id) {
+    void deleteById(Long id) {
         map.remove(id);
     }
 
@@ -40,14 +39,9 @@ public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> 
 
     private Long getNextId() {
 
-        Long nextId = null;
+        if (map.keySet().isEmpty()) return 1L;
 
-        try {
-            nextId = Collections.max(map.keySet()) + 1;
-        } catch (NoSuchElementException ex) {
-            nextId = 1L;
-        }
-        return nextId;
+        return Collections.max(map.keySet()) + 1;
     }
 
 }
