@@ -2,9 +2,12 @@ package com.drugowick.drugopetclinic.services.map;
 
 import java.util.Set;
 
+import org.springframework.stereotype.Service;
+
 import com.drugowick.drugopetclinic.model.Specialty;
 import com.drugowick.drugopetclinic.services.SpecialtyService;
 
+@Service
 public class SpecialtyServiceMap extends AbstractMapService<Specialty> implements SpecialtyService {
 	
 	@Override

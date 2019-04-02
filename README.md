@@ -12,3 +12,11 @@ To build and run:
 ./mvnw package
  java -jar target/*.jar
 ```
+
+## Developing
+The app can create a sample database to use while developing. 
+This process is only triggered if you understand the DataLoader.java class.
+
+Otherwise the app will run normally without creating any sample data.
+Go ahead and take a look at the mentioned class to understand what you have to do
+to have the sample data created for you.
