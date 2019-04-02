@@ -12,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * This class extends CommandLineRunner, which Spring runs just after loading everything
@@ -25,39 +26,42 @@ public class DataLoader implements CommandLineRunner {
     //TODO refactor to leverage on Spring stuff.
     private final OwnerService ownerService;
     private final VetService vetService;
-    private final PetTypeService petTypeService;
-    private final PetService petService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, PetService petService) {
+    public DataLoader(OwnerService ownerService, VetService vetService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
-        this.petTypeService = petTypeService;
-        this.petService = petService;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
-        PetType dog = createAndSavePetType("Dog");
-        PetType cat = createAndSavePetType("Cat");
+        PetType typeDog = new PetType("Dog");
+        PetType typeCat = new PetType("Cat");
 
-        Owner bruno = createAndSaveOwner("Bruno", "Uno");
-        Owner lara = createAndSaveOwner("Lara", "Rara");
+        Owner bruno = createAndSaveOwner("Bruno", "Uno", "Rua Paulo Setubal, 415",
+                "Campinas", "Brazil", "5519996559966");
+        Owner lara = createAndSaveOwner("Lara", "Rara", "Ifsdgsdf 12",
+                "Amsterdam", "Netherlands", "5519983559523");
 
-        createAndSavePet(dog, bruno, LocalDate.of(2012, 12,25));
-        createAndSavePet(cat, lara, LocalDate.of(2012, 04,01));
+        createAndSavePet("Melo", typeDog, bruno, LocalDate.of(2012, 12,25));
+        createAndSavePet(" Tukinha", typeCat, lara, LocalDate.of(2012, 04,01));
 
         createAndSaveVet("Marcos", "Parcos");
         createAndSaveVet("Jonas", "Monas");
     }
 
-    private void createAndSavePet(PetType petType, Owner owner, LocalDate birthDate) {
+    private void createAndSavePet(String petName, PetType petType, Owner owner, LocalDate birthDate) {
         Pet pet = new Pet();
+        pet.setName(petName);
         pet.setBirthDate(birthDate);
         pet.setOwner(owner);
         pet.setPetType(petType);
-        petService.save(pet);
-        System.out.println("Loaded pet: " + pet.toString());
+
+        Set<Pet> pets = owner.getPets();
+        pets.add(pet);
+        owner.setPets(pets);
+        ownerService.save(owner);
+        System.out.println("Pet added to owner: " + owner.toString());
     }
 
     private void createAndSaveVet(String firstName, String lastName) {
@@ -68,20 +72,16 @@ public class DataLoader implements CommandLineRunner {
         System.out.println("Loaded vet: " + vet.toString());
     }
 
-    private Owner createAndSaveOwner(String firstName, String lastName) {
+    private Owner createAndSaveOwner(String firstName, String lastName, String address, String city, String country, String phoneNumber) {
         Owner owner = new Owner();
         owner.setFirstName(firstName);
         owner.setLastName(lastName);
+        owner.setAddress(address);
+        owner.setCity(city);
+        owner.setCountry(country);
+        owner.setTelephone(phoneNumber);
         ownerService.save(owner);
         System.out.println("Loaded owner: " + owner.toString());
         return owner;
-    }
-
-    private PetType createAndSavePetType(String petName) {
-        PetType petType = new PetType();
-        petType.setName(petName);
-        petTypeService.save(petType);
-        System.out.println("Loaded pet type: " + petType.toString());
-        return petType;
     }
 }
