@@ -52,6 +52,7 @@ public class DataLoader implements CommandLineRunner {
     private void loadData() {
         PetType typeDog = new PetType("Dog");
         PetType typeCat = new PetType("Cat");
+        PetType typeParrot = new PetType("Parrot");
 
         Owner bruno = createAndSaveOwner("Bruno", "Uno", "Rua Paulo Setubal, 415",
                 "Campinas", "Brazil", "5519996559966");
@@ -61,11 +62,13 @@ public class DataLoader implements CommandLineRunner {
         createAndSavePet("Melo", typeDog, bruno, LocalDate.of(2012, 12,25));
         createAndSavePet(" Tukinha", typeCat, lara, LocalDate.of(2012, 04,01));
 
-        Specialty specialtyLargeAnimals = new Specialty("Large Animals");
-        Specialty specialtyTinyAnimals = new Specialty("Tiny Animals");
+        Specialty specialtyLargeAnimals = new Specialty("Surgery");
+        Specialty specialtyTinyAnimals = new Specialty("Dentistry");
+        Specialty specialtyRadiology = new Specialty("Radiology");
 
         createAndSaveVet("Marcos", "Parcos", specialtyLargeAnimals);
-        createAndSaveVet("Jonas", "Monas", specialtyTinyAnimals);
+        createAndSaveVet("Jonas", "Monas", specialtyTinyAnimals, specialtyRadiology);
+        createAndSaveVet("Julius", "Moolius");
     }
 
     private Pet createAndSavePet(String petName, PetType petType, Owner owner, LocalDate birthDate) {
@@ -84,14 +87,16 @@ public class DataLoader implements CommandLineRunner {
         return pet;
     }
 
-    private Vet createAndSaveVet(String firstName, String lastName, Specialty specialty) {
+    private Vet createAndSaveVet(String firstName, String lastName, Specialty... specialties) {
         Vet vet = new Vet();
         vet.setFirstName(firstName);
         vet.setLastName(lastName);
         
-        Set<Specialty> specialties = vet.getSpecialties();
-        specialties.add(specialty);
-        vet.setSpecialties(specialties);
+        Set<Specialty> vetSpecialties = vet.getSpecialties();
+        for (Specialty specialty: specialties) {
+            vetSpecialties.add(specialty);
+        }
+        vet.setSpecialties(vetSpecialties);
         
         Vet saved = vetService.save(vet);
         System.out.println("Loaded vet: " + saved.toString());

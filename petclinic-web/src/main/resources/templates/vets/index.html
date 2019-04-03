@@ -21,7 +21,11 @@
             <td th:text="${vet.getId()}">1</td>
             <td th:text="${vet.getFirstName()}">John</td>
             <td th:text="${vet.getLastName()}">Doe</td>
-            <td th:text="${vet.getSpecialties()}">Sea Animals</td>
+            <td>
+                <span th:each="specialty : ${vet.getSpecialties()}"
+                      th:text="${specialty.getDescription() + ' '}"/>
+                <span th:if="${vet.getSpecialties().size() == 0}">None</span>
+            </td>
         </tr>
         </tbody>
     </table>

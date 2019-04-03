@@ -10,4 +10,10 @@ public class IndexController {
     public String index() {
         return "index";
     }
+
+    @RequestMapping("/oups")
+    public String error() {
+        throw new RuntimeException("This is a simulated error. " +
+                "The cat and the dog above are sad because you couldn't find what you're looking for.");
+    }
 }
