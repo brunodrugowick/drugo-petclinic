@@ -53,14 +53,23 @@ public class DataLoader implements CommandLineRunner {
         PetType typeDog = new PetType("Dog");
         PetType typeCat = new PetType("Cat");
         PetType typeParrot = new PetType("Parrot");
+        PetType typeSnake = new PetType("Snake");
 
         Owner bruno = createAndSaveOwner("Bruno", "Uno", "Rua Paulo Setubal, 415",
                 "Campinas", "Brazil", "5519996559966");
         Owner lara = createAndSaveOwner("Lara", "Rara", "Ifsdgsdf 12",
                 "Amsterdam", "Netherlands", "5519983559523");
+        Owner robert = createAndSaveOwner("Robert", "Duval", "Holywood street, 123",
+                "Los Angeles", "US", "11233455678");
+        Owner anna = createAndSaveOwner("Anna", "Bacanna", "Coolplace, 983",
+                "Belo Horizonte", "Brazil", "5511239402334");
 
         createAndSavePet("Melo", typeDog, bruno, LocalDate.of(2012, 12,25));
-        createAndSavePet(" Tukinha", typeCat, lara, LocalDate.of(2012, 04,01));
+        createAndSavePet("Tukinha", typeCat, lara, LocalDate.of(2012, 04,01));
+        createAndSavePet("Celeste", typeSnake, robert, LocalDate.of(2015, 07,11));
+        createAndSavePet("Xunênis", typeCat, bruno, LocalDate.of(2012, 12,25));
+        createAndSavePet("Hablante", typeParrot, anna, LocalDate.of(2018, 04,01));
+        createAndSavePet("Parlante", typeParrot, anna, LocalDate.of(2009, 07,11));
 
         Specialty specialtyLargeAnimals = new Specialty("Surgery");
         Specialty specialtyTinyAnimals = new Specialty("Dentistry");
