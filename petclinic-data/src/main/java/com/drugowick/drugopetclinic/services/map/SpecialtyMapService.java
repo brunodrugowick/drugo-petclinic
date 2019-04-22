@@ -1,14 +1,13 @@
 package com.drugowick.drugopetclinic.services.map;
 
-import java.util.Set;
-
-import org.springframework.stereotype.Service;
-
 import com.drugowick.drugopetclinic.model.Specialty;
 import com.drugowick.drugopetclinic.services.SpecialtyService;
+import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
-public class SpecialtyServiceMap extends AbstractMapService<Specialty> implements SpecialtyService {
+public class SpecialtyMapService extends AbstractMapService<Specialty> implements SpecialtyService {
 	
 	@Override
 	public Set<Specialty> findAll() {
