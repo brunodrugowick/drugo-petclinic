@@ -24,7 +24,12 @@ services package
 |  |_ SpecialtiesServiceMap |
 |  |_ VerServiceMap        /
 |
-|_ <other> package          » Probably some other implementation of CRUD services not based on in-memory Map.
+|_ springdatajpa package    » Services that'll use JPA to persist data.
+|  |
+|  |_ OwnerSDJpaService     » Classes that implement its own basic service interface from the directory above. 
+|
+|_ <<name>> package         
+
 ```
 
 The `map` package is pretty neat in the sense that the Map<ID, T> is declared once and used by every ServiceMap. Understand why [Java Generics](https://docs.oracle.com/javase/tutorial/java/generics/why.html).
