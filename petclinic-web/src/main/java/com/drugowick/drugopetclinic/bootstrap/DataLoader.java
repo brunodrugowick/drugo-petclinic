@@ -1,19 +1,15 @@
 package com.drugowick.drugopetclinic.bootstrap;
 
-import com.drugowick.drugopetclinic.model.Owner;
-import com.drugowick.drugopetclinic.model.Pet;
-import com.drugowick.drugopetclinic.model.PetType;
-import com.drugowick.drugopetclinic.model.Specialty;
-import com.drugowick.drugopetclinic.model.Vet;
+import com.drugowick.drugopetclinic.model.*;
 import com.drugowick.drugopetclinic.services.OwnerService;
-import com.drugowick.drugopetclinic.services.PetService;
-import com.drugowick.drugopetclinic.services.PetTypeService;
 import com.drugowick.drugopetclinic.services.VetService;
+import com.drugowick.drugopetclinic.services.VisitService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -28,10 +24,12 @@ public class DataLoader implements CommandLineRunner {
     //TODO refactor to leverage on Spring stuff.
     private final OwnerService ownerService;
     private final VetService vetService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
+        this.visitService = visitService;
     }
 
     @Value("${petclinic.devmode:#{'0'}}")
@@ -64,12 +62,13 @@ public class DataLoader implements CommandLineRunner {
         Owner anna = createAndSaveOwner("Anna", "Bacanna", "Coolplace, 983",
                 "Belo Horizonte", "Brazil", "5511239402334");
 
-        createAndSavePet("Melo", typeDog, bruno, LocalDate.of(2012, 12,25));
-        createAndSavePet("Tukinha", typeCat, lara, LocalDate.of(2012, 04,01));
-        createAndSavePet("Celeste", typeSnake, robert, LocalDate.of(2015, 07,11));
-        createAndSavePet("Xunênis", typeCat, bruno, LocalDate.of(2012, 12,25));
-        createAndSavePet("Hablante", typeParrot, anna, LocalDate.of(2018, 04,01));
-        createAndSavePet("Parlante", typeParrot, anna, LocalDate.of(2009, 07,11));
+        Set<Pet> pets = new HashSet<>();
+        pets.add(createAndSavePet("Melo", typeDog, bruno, LocalDate.of(2012, 12,25)));
+        pets.add(createAndSavePet("Tukinha", typeCat, lara, LocalDate.of(2012, 04,01)));
+        pets.add(createAndSavePet("Celeste", typeSnake, robert, LocalDate.of(2015, 07,11)));
+        pets.add(createAndSavePet("Xunênis", typeCat, bruno, LocalDate.of(2012, 12,25)));
+        pets.add(createAndSavePet("Hablante", typeParrot, anna, LocalDate.of(2018, 04,01)));
+        pets.add(createAndSavePet("Parlante", typeParrot, anna, LocalDate.of(2009, 07,11)));
 
         Specialty specialtyLargeAnimals = new Specialty("Surgery");
         Specialty specialtyTinyAnimals = new Specialty("Dentistry");
@@ -78,6 +77,31 @@ public class DataLoader implements CommandLineRunner {
         createAndSaveVet("Marcos", "Parcos", specialtyLargeAnimals);
         createAndSaveVet("Jonas", "Monas", specialtyTinyAnimals, specialtyRadiology);
         createAndSaveVet("Julius", "Moolius");
+
+        pets.forEach(pet -> {
+           createAndSaveVisits(pet);
+        });
+    }
+
+    private Set<Visit> createAndSaveVisits(Pet pet) {
+        Set<Visit> visits = new HashSet<>();
+
+        Visit visit = new Visit();
+        visit.setDate(LocalDate.now());
+        visit.setDescription("Visit " + visit.getDate());
+        visit.setPet(pet);
+        visitService.save(visit);
+        System.out.println("Visit created: " + visit.toString());
+        visits.add(visit);
+
+        //Add a second visit to the same pet.
+        visit.setDate(LocalDate.of(2020, 4, 23));
+        visit.setDescription("Visit " + visit.getDate());
+        visitService.save(visit);
+        System.out.println("Visit created: " + visit.toString());
+        visits.add(visit);
+
+        return visits;
     }
 
     private Pet createAndSavePet(String petName, PetType petType, Owner owner, LocalDate birthDate) {

@@ -2,9 +2,11 @@ package com.drugowick.drugopetclinic.services.map;
 
 import com.drugowick.drugopetclinic.model.Visit;
 import com.drugowick.drugopetclinic.services.VisitService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class VisitMapService extends AbstractMapService<Visit> implements VisitService {
 
     @Override
