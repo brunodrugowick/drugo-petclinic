@@ -3,11 +3,13 @@ package com.drugowick.drugopetclinic.services.map;
 import com.drugowick.drugopetclinic.model.Vet;
 import com.drugowick.drugopetclinic.services.SpecialtyService;
 import com.drugowick.drugopetclinic.services.VetService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
+@Profile({"default", "map"})
 public class VetMapService extends AbstractMapService<Vet> implements VetService {
 	
 	private final SpecialtyService specialtyService;

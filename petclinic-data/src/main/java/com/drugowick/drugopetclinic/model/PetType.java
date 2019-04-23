@@ -16,6 +16,9 @@ public class PetType extends BaseEntity {
         this.name = type;
     }
 
+    public PetType() {
+    }
+
     public String getName() {
         return name;
     }

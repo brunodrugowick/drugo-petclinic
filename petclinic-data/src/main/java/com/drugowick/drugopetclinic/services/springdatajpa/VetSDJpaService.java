@@ -1,6 +1,7 @@
 package com.drugowick.drugopetclinic.services.springdatajpa;
 
 import com.drugowick.drugopetclinic.model.Vet;
+import com.drugowick.drugopetclinic.repositories.SpecialtyRepository;
 import com.drugowick.drugopetclinic.repositories.VetRepository;
 import com.drugowick.drugopetclinic.services.VetService;
 import org.springframework.context.annotation.Profile;
@@ -14,9 +15,11 @@ import java.util.Set;
 public class VetSDJpaService implements VetService {
 
     private final VetRepository vetRepository;
+    private final SpecialtyRepository specialtyRepository;
 
-    public VetSDJpaService(VetRepository vetRepository) {
+    public VetSDJpaService(VetRepository vetRepository, SpecialtyRepository specialtyRepository) {
         this.vetRepository = vetRepository;
+        this.specialtyRepository = specialtyRepository;
     }
 
     @Override
@@ -33,6 +36,9 @@ public class VetSDJpaService implements VetService {
 
     @Override
     public Vet save(Vet object) {
+        object.getSpecialties().forEach(specialty -> {
+            specialtyRepository.save(specialty);
+        });
         return vetRepository.save(object);
     }
 

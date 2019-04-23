@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'visits')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Visits Page</title>
+</head>
+<body>
+<h2 th:text="'Visits'">Visits Page</h2>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="width: 150px;">Date</th>
+        <th style="width: 150px;">Description</th>
+        <th style="width: 150px;">Pet (Owner)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="visit : ${visits}">
+        <td th:text="${visit.getDate()}">2020-04-23</td>
+        <td th:text="${visit.getDescription()}">Visit Day</td>
+        <td th:inline="text">[[${visit.getPet().getName()}]] (<span
+                th:text="${visit.getPet().getOwner().getFullName()}">Bruno Drugowick Muniz</span>)
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

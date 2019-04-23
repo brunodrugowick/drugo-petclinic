@@ -15,7 +15,10 @@ public class Specialty extends BaseEntity {
 		this.description = description;
 	}
 
-	public String getDescription() {
+    public Specialty() {
+    }
+
+    public String getDescription() {
         return description;
     }
 
