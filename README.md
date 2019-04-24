@@ -2,6 +2,9 @@
 On this repository I developed the well-known Spring Pet Clinic application as per instructions by John Thompson 
 on his Spring Framework 5 course on Udemy.
 
+## Try the latest version
+The latest stable version of this app is automatically deployed to [https://drugo-petclinic.herokuapp.com/](https://drugo-petclinic.herokuapp.com/).
+
 ## Running
 To run: 
 ```
