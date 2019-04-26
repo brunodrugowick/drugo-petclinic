@@ -1,8 +1,13 @@
 package com.drugowick.drugopetclinic.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+@Getter
+@Setter
 @MappedSuperclass
 public class Person extends BaseEntity {
 
@@ -14,22 +19,6 @@ public class Person extends BaseEntity {
 
     public String getFullName() {
         return firstName + " " + lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     @Override
