@@ -33,7 +33,11 @@ public class PetTypeSDJpaService implements PetTypeService {
 
     @Override
     public PetType save(PetType object) {
-        return petTypeRepository.save(object);
+        PetType existingPetType = petTypeRepository.findByName(object.getName());
+        if (existingPetType == null)
+            return petTypeRepository.save(object);
+        else
+            return existingPetType;
     }
 
     @Override

@@ -4,8 +4,8 @@ import com.drugowick.drugopetclinic.model.*;
 import com.drugowick.drugopetclinic.services.OwnerService;
 import com.drugowick.drugopetclinic.services.VetService;
 import com.drugowick.drugopetclinic.services.VisitService;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -13,13 +13,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class extends CommandLineRunner, which Spring runs just after loading everything
- * and before run the application custom code.
- *
- * This is a bootstrap class to create example data for development and test purposes.
+ * This is a Data Loader, responsible for creating new data on the database.
  */
 @Component
-public class DataLoader implements CommandLineRunner {
+public class DataLoader {
 
     //TODO refactor to leverage on Spring stuff.
     private final OwnerService ownerService;
@@ -32,22 +29,12 @@ public class DataLoader implements CommandLineRunner {
         this.visitService = visitService;
     }
 
-    @Value("${petclinic.devmode:#{'0'}}")
-    private String devMode;
+    private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
-    @Value("${petclinic.devmode.password:#{'xibanga'}}")
-    private String devPass;
+    public void loadData() {
 
-    @Override
-    public void run(String... args) throws Exception {
+        cleanUpDatabase();
 
-        if (devMode.equals("1") && devPass.equals("aiowas")) {
-            System.out.println("DEVMODE: Sample data will be created.");
-            loadData();
-        }
-    }
-
-    private void loadData() {
         PetType typeDog = new PetType("Dog");
         PetType typeCat = new PetType("Cat");
         PetType typeParrot = new PetType("Parrot");
@@ -83,6 +70,18 @@ public class DataLoader implements CommandLineRunner {
         });
     }
 
+    /**
+     * Cleans up main entities. Cascade takes care of deleting other entities.
+     *
+     * Entities not cascaded are not deleted because they have verifications
+     * in order not to have duplicates in their own Service implementations.
+     */
+    private void cleanUpDatabase() {
+        log.warn("Cleaning up database (main entities). Specialties and PetTypes will remain.");
+        ownerService.findAll().forEach(owner -> ownerService.delete(owner));
+        vetService.findAll().forEach(vet -> vetService.delete(vet));
+    }
+
     private Set<Visit> createAndSaveVisits(Pet pet) {
         Set<Visit> visits = new HashSet<>();
 
@@ -98,7 +97,7 @@ public class DataLoader implements CommandLineRunner {
         visit.setDate(LocalDate.of(2020, 4, 23));
         visit.setDescription("Visit " + visit.getDate());
         visitService.save(visit);
-        System.out.println("Visit created: " + visit.toString());
+        log.info("Visit created: " + visit.toString());
         visits.add(visit);
 
         return visits;
@@ -116,7 +115,7 @@ public class DataLoader implements CommandLineRunner {
         owner.setPets(pets);
         
         Owner saved = ownerService.save(owner);
-        System.out.println("Pet added to owner: " + saved.toString());
+        log.info("Pet added to owner: " + saved.toString());
         return pet;
     }
 
@@ -132,7 +131,7 @@ public class DataLoader implements CommandLineRunner {
         vet.setSpecialties(vetSpecialties);
         
         Vet saved = vetService.save(vet);
-        System.out.println("Loaded vet: " + saved.toString());
+        log.info("Loaded vet: " + saved.toString());
         return saved;
     }
 
@@ -146,7 +145,7 @@ public class DataLoader implements CommandLineRunner {
         owner.setTelephone(phoneNumber);
 
         Owner saved = ownerService.save(owner);
-        System.out.println("Loaded owner: " + saved.toString());
+        log.info("Loaded owner: " + saved.toString());
         return saved;
     }
 }
