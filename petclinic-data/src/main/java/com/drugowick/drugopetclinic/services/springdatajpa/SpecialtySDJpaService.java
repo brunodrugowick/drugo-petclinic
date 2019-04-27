@@ -33,7 +33,11 @@ public class SpecialtySDJpaService implements SpecialtyService {
 
     @Override
     public Specialty save(Specialty object) {
-        return specialtyRepository.save(object);
+        Specialty existingSpecialty = specialtyRepository.findByDescription(object.getDescription());
+        if (existingSpecialty == null)
+            return specialtyRepository.save(object);
+        else
+            return existingSpecialty;
     }
 
     @Override

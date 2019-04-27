@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Table(name = "specialties")
 public class Specialty extends BaseEntity {
 
-    @Column(name = "description")
+    @Column(name = "description", unique = true)
     private String description;
 
     @Override

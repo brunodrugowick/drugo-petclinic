@@ -2,9 +2,9 @@ package com.drugowick.drugopetclinic.services.springdatajpa;
 
 import com.drugowick.drugopetclinic.model.Owner;
 import com.drugowick.drugopetclinic.repositories.OwnerRepository;
-import com.drugowick.drugopetclinic.repositories.PetRepository;
-import com.drugowick.drugopetclinic.repositories.PetTypeRepository;
 import com.drugowick.drugopetclinic.services.OwnerService;
+import com.drugowick.drugopetclinic.services.PetService;
+import com.drugowick.drugopetclinic.services.PetTypeService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +16,13 @@ import java.util.Set;
 public class OwnerSDJpaService implements OwnerService {
 
     private final OwnerRepository ownerRepository;
-    private final PetRepository petRepository;
-    private final PetTypeRepository petTypeRepository;
+    private final PetService petService;
+    private final PetTypeService petTypeService;
 
-    public OwnerSDJpaService(OwnerRepository ownerRepository, PetRepository petRepository, PetTypeRepository petTypeRepository) {
+    public OwnerSDJpaService(OwnerRepository ownerRepository, PetService petService, PetTypeService petTypeService) {
         this.ownerRepository = ownerRepository;
-        this.petRepository = petRepository;
-        this.petTypeRepository = petTypeRepository;
+        this.petService = petService;
+        this.petTypeService = petTypeService;
     }
 
     @Override
@@ -48,8 +48,8 @@ public class OwnerSDJpaService implements OwnerService {
             return null;
 
         object.getPets().forEach(pet -> {
-            petTypeRepository.save(pet.getPetType());
-            petRepository.save(pet);
+            pet.setPetType(petTypeService.save(pet.getPetType()));
+            petService.save(pet);
         });
 
         return ownerRepository.save(object);
