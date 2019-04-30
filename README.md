@@ -14,7 +14,7 @@ To run:
 To build and run:
 ```
 ./mvnw package
- java -jar target/*.jar
+ java -jar petclinic-web/target/*.jar
 ```
 
 ## Developing
