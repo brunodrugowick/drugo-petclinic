@@ -90,7 +90,7 @@ public class DataLoader {
         visit.setDescription("Visit " + visit.getDate());
         visit.setPet(pet);
         visitService.save(visit);
-        System.out.println("Visit created: " + visit.toString());
+        log.info("Visit created: " + visit.toString());
         visits.add(visit);
 
         //Add a second visit to the same pet.

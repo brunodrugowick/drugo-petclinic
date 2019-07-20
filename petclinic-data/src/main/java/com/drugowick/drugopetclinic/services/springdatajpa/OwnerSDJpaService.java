@@ -1,5 +1,7 @@
 package com.drugowick.drugopetclinic.services.springdatajpa;
 
+import com.drugowick.drugopetclinic.converters.OwnerToOwnerCommand;
+import com.drugowick.drugopetclinic.converters.commands.OwnerCommand;
 import com.drugowick.drugopetclinic.model.Owner;
 import com.drugowick.drugopetclinic.repositories.OwnerRepository;
 import com.drugowick.drugopetclinic.services.OwnerService;
@@ -19,15 +21,25 @@ public class OwnerSDJpaService implements OwnerService {
     private final PetService petService;
     private final PetTypeService petTypeService;
 
-    public OwnerSDJpaService(OwnerRepository ownerRepository, PetService petService, PetTypeService petTypeService) {
+    private final OwnerToOwnerCommand ownerToOwnerCommand;
+
+    public OwnerSDJpaService(OwnerRepository ownerRepository, PetService petService, PetTypeService petTypeService, OwnerToOwnerCommand ownerToOwnerCommand) {
         this.ownerRepository = ownerRepository;
         this.petService = petService;
         this.petTypeService = petTypeService;
+        this.ownerToOwnerCommand = ownerToOwnerCommand;
     }
 
     @Override
     public Owner findByLastName(String lastName) {
         return ownerRepository.findByLastName(lastName);
+    }
+
+    @Override
+    public OwnerCommand findCommandById(Long id) {
+        return ownerToOwnerCommand.convert(
+                ownerRepository.findById(id).orElse(null)
+        );
     }
 
     @Override
