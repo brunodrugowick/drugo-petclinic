@@ -1,5 +1,7 @@
 package com.drugowick.drugopetclinic.services.map;
 
+import com.drugowick.drugopetclinic.converters.OwnerToOwnerCommand;
+import com.drugowick.drugopetclinic.converters.commands.OwnerCommand;
 import com.drugowick.drugopetclinic.model.Owner;
 import com.drugowick.drugopetclinic.services.OwnerService;
 import com.drugowick.drugopetclinic.services.PetService;
@@ -16,9 +18,12 @@ public class OwnerMapService extends AbstractMapService<Owner> implements OwnerS
     private final PetTypeService petTypeService;
     private final PetService petService;
 
-    public OwnerMapService(PetTypeService petTypeService, PetService petService) {
+    private final OwnerToOwnerCommand ownerToOwnerCommand;
+
+    public OwnerMapService(PetTypeService petTypeService, PetService petService, OwnerToOwnerCommand ownerToOwnerCommand) {
         this.petTypeService = petTypeService;
         this.petService = petService;
+        this.ownerToOwnerCommand = ownerToOwnerCommand;
     }
 
     @Override
@@ -75,5 +80,12 @@ public class OwnerMapService extends AbstractMapService<Owner> implements OwnerS
     public Owner findByLastName(String lastName) {
         //TODO implement this.
         return null;
+    }
+
+    @Override
+    public OwnerCommand findCommandById(Long id) {
+        return ownerToOwnerCommand.convert(
+                findById(id)
+        );
     }
 }
