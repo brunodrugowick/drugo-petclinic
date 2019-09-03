@@ -9,6 +9,9 @@ import com.drugowick.drugopetclinic.services.PetTypeService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -87,5 +90,18 @@ public class OwnerMapService extends AbstractMapService<Owner> implements OwnerS
         return ownerToOwnerCommand.convert(
                 findById(id)
         );
+    }
+
+    @Override
+    public Set<OwnerCommand> findAllByFirstNameLike(String fullName) {
+        List<Owner> matchList = new ArrayList<>();
+        super.map.entrySet().forEach(longOwnerEntry -> {
+            if (longOwnerEntry.getValue().getFullName().contains(fullName)) {
+                matchList.add(longOwnerEntry.getValue());
+            }
+        });
+        Set<OwnerCommand> results = new HashSet<>();
+        matchList.forEach(owner -> results.add(ownerToOwnerCommand.convert(owner)));
+        return results;
     }
 }

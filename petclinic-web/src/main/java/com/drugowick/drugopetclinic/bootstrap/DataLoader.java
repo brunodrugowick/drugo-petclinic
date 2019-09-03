@@ -42,6 +42,8 @@ public class DataLoader {
 
         Owner bruno = createAndSaveOwner("Bruno", "Uno", "Rua Paulo Setubal, 415",
                 "Campinas", "Brazil", "5519996559966");
+        Owner bruno2 = createAndSaveOwner("Bruno", "Duo", "Rua Paulo Setubal, 415",
+                "Campinas", "Brazil", "5519996559966");
         Owner lara = createAndSaveOwner("Lara", "Rara", "Ifsdgsdf 12",
                 "Amsterdam", "Netherlands", "5519983559523");
         Owner robert = createAndSaveOwner("Robert", "Duval", "Holywood street, 123",

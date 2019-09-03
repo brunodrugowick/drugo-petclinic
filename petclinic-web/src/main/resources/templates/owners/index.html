@@ -16,7 +16,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="owner : ${owners}">
+        <tr th:each="owner : ${owners}" style="cursor: pointer" th:onclick="'window.location.href=\'/owners/' + ${owner.getId()} + '\''">
             <td th:text="${owner.getId()}">1</td>
             <td th:text="${owner.getFirstName()}">John</td>
             <td th:text="${owner.getLastName()}">Doe</td>

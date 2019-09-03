@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -40,6 +41,14 @@ public class OwnerSDJpaService implements OwnerService {
         return ownerToOwnerCommand.convert(
                 ownerRepository.findById(id).orElse(null)
         );
+    }
+
+    @Override
+    public Set<OwnerCommand> findAllByFirstNameLike(String firstName) {
+        Set<OwnerCommand> results = new HashSet<>();
+        List<Owner> repositoryResults = ownerRepository.findAllByFirstNameLike(firstName);
+        repositoryResults.forEach(owner -> results.add(ownerToOwnerCommand.convert(owner)));
+        return results;
     }
 
     @Override
