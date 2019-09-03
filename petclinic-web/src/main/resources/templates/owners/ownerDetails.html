@@ -5,11 +5,18 @@
 
   <body>
 
+    <!-- Dial -->
     <p align="right">
+
       <span style="color: lightgrey">Navigate using Owner ID: </span>
-      <a th:href="@{~/owners/} + ${previousId}" th:text="${previousId} + '.. '">1.. </a>
-      <span th:text="${currentId}"> 2 </span>
-      <a th:href="@{~/owners/} + ${nextId}" th:text="' ..' + ${nextId}"> .. 3</a>
+
+      <span style="color: darkgray" th:text="${currentId} - 2 + ' .. '"> 0 .. </span>
+      <a th:href="@{~/owners/} + ${previousId}" th:text="${previousId} + ' .. '">1.. </a>
+      <span th:text="${currentId}">2</span>
+      <a th:href="@{~/owners/} + ${nextId}" th:text="' .. ' + ${nextId}"> .. 3</a>
+      <span style="color: darkgray" th:text=" .. "> .. </span>
+      <span style="color: darkgray" th:text="${currentId} + 2">4</span>
+
     </p>
 
     <div th:if="${owner}">
