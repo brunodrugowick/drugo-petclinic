@@ -9,11 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -92,5 +90,39 @@ public class OwnerController {
         model.addAttribute("nextId", idLong + 1l);
 
         return "owners/ownerDetails";
+    }
+
+    @GetMapping("/new")
+    public String initCreationForm(Model model) {
+        model.addAttribute("owner", Owner.builder().build());
+        return "owners/createOrUpdateOwner";
+    }
+
+    @PostMapping("/new")
+    public String processCreationForm(@Valid Owner owner, BindingResult result) {
+        if (result.hasErrors()) {
+            return "owners/createOrUpdateOwner";
+        } else {
+            Owner savedOwner = ownerService.save(owner);
+            System.out.println(owner.getId() + " " + savedOwner.getId());
+            return "redirect:/owners/" + savedOwner.getId();
+        }
+    }
+
+    @GetMapping("/{ownerId}/edit")
+    public String initUpdateForm(@PathVariable("ownerId") Long ownerId, Model model) {
+        model.addAttribute("owner", ownerService.findById(ownerId));
+        return "owners/createOrUpdateOwner";
+    }
+
+    @PostMapping("/{ownerId}/edit")
+    public String processUpdateForm(@PathVariable("ownerId") Long ownerId, @Valid Owner owner, BindingResult result) {
+        if (result.hasErrors()) {
+            return "owners/createOrUpdateOwner";
+        } else {
+            owner.setId(ownerId);
+            Owner savedOwner = ownerService.save(owner);
+            return "redirect:/owners/" + savedOwner.getId();
+        }
     }
 }

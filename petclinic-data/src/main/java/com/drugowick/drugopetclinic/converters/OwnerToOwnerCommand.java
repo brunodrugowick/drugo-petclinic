@@ -30,8 +30,10 @@ public class OwnerToOwnerCommand implements Converter<Owner, OwnerCommand> {
         ownerCommand.setFullName(source.getFullName());
         ownerCommand.setTelephone(source.getTelephone());
         ownerCommand.setId(source.getId());
-        for (Pet pet : source.getPets()) {
-            ownerCommand.getPets().add(petToPetCommand.convert(pet));
+        if (!(source.getPets() == null || source.getPets().size() == 0)) {
+            for (Pet pet : source.getPets()) {
+                ownerCommand.getPets().add(petToPetCommand.convert(pet));
+            }
         }
 
         return ownerCommand;
