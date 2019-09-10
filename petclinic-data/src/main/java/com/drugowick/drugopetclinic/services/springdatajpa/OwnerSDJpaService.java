@@ -44,9 +44,9 @@ public class OwnerSDJpaService implements OwnerService {
     }
 
     @Override
-    public Set<OwnerCommand> findAllByFirstNameLike(String firstName) {
+    public Set<OwnerCommand> findAllByFirstNameContaining(String firstName) {
         Set<OwnerCommand> results = new HashSet<>();
-        List<Owner> repositoryResults = ownerRepository.findAllByFirstNameLike(firstName);
+        List<Owner> repositoryResults = ownerRepository.findAllByFirstNameContaining(firstName);
         repositoryResults.forEach(owner -> results.add(ownerToOwnerCommand.convert(owner)));
         return results;
     }

@@ -93,10 +93,10 @@ public class OwnerMapService extends AbstractMapService<Owner> implements OwnerS
     }
 
     @Override
-    public Set<OwnerCommand> findAllByFirstNameLike(String fullName) {
+    public Set<OwnerCommand> findAllByFirstNameContaining(String firstName) {
         List<Owner> matchList = new ArrayList<>();
         super.map.entrySet().forEach(longOwnerEntry -> {
-            if (longOwnerEntry.getValue().getFullName().contains(fullName)) {
+            if (longOwnerEntry.getValue().getFullName().contains(firstName)) {
                 matchList.add(longOwnerEntry.getValue());
             }
         });
@@ -105,3 +105,4 @@ public class OwnerMapService extends AbstractMapService<Owner> implements OwnerS
         return results;
     }
 }
+

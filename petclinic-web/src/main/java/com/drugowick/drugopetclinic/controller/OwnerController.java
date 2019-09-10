@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @RequestMapping("/owners")
@@ -48,11 +49,15 @@ public class OwnerController {
 
         // allow parameterless GET request for /owners to return all records
         if (owner.getFirstName() == null || owner.getFirstName() == "") {
-            owner.setFirstName("%"); // broadest possible search
+            Set<Owner> results = ownerService.findAll();
+            Set<OwnerCommand> resultsCommand = new HashSet<>();
+            results.forEach(ownerResults -> resultsCommand.add(ownerToOwnerCommand.convert(ownerResults)));
+            model.addAttribute("selections", resultsCommand);
+            return "owners/ownersList";
         }
 
         //find owners by last name
-        Set<OwnerCommand> results = ownerService.findAllByFirstNameLike(owner.getFirstName());
+        Set<OwnerCommand> results = ownerService.findAllByFirstNameContaining(owner.getFirstName());
 
         if (results.isEmpty()) {
             result.rejectValue("firstName", "notFound", "not found");

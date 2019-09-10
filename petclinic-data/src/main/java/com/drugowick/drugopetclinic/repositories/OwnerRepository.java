@@ -9,5 +9,5 @@ public interface OwnerRepository extends PagingAndSortingRepository<Owner, Long>
 
     Owner findByLastName(String lastName);
 
-    List<Owner> findAllByFirstNameLike(String firstName);
+    List<Owner> findAllByFirstNameContaining(String firstName);
 }
