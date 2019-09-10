@@ -11,6 +11,6 @@ public interface OwnerService extends CrudService<Owner, Long> {
 
     OwnerCommand findCommandById(Long id);
 
-    Set<OwnerCommand> findAllByFirstNameLike(String firstName);
+    Set<OwnerCommand> findAllByFirstNameContaining(String firstName);
 
 }
