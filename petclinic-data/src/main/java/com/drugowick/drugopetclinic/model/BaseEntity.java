@@ -17,4 +17,17 @@ public class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    /**
+     * Used to return if a object is new (not saved to the database) which would generate
+     * an ID.
+     *
+     * This is used, for example, on Thymeleaf templates to determine if the object being created
+     * id new or not, changing labels from "Save" to "Create" and so on...
+     *
+     * @return
+     */
+    public boolean isNew() {
+        return this.id == null;
+    }
 }
