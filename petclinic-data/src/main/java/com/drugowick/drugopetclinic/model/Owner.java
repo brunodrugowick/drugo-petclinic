@@ -40,4 +40,35 @@ public class Owner extends Person {
                 ", pets=" + pets +
                 '}';
     }
+
+    /**
+     * Return the Pet with the given name, or null if none found for this Owner.
+     *
+     * @param petName to find
+     * @return the Pet if pet name is already in use
+     */
+    public Pet getPet(String petName) {
+        return getPet(petName, false);
+    }
+
+    /**
+     * Return the Pet with the given name, or null if none found for this Owner.
+     *
+     * @param petName to find
+     * @param ignoreNew to ignore if it's a new Pet (not saved).
+     * @return the Pet if pet name is already in use
+     */
+    public Pet getPet(String petName, boolean ignoreNew) {
+        petName = petName.toLowerCase();
+        for (Pet pet : pets) {
+            if (!ignoreNew || !pet.isNew()) {
+                String name = pet.getName();
+                name = name.toLowerCase();
+                if (name.equals(petName)) {
+                    return pet;
+                }
+            }
+        }
+        return null;
+    }
 }
