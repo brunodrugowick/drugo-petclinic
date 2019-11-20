@@ -18,6 +18,10 @@ public class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public BaseEntity(Long id) {
+        this.id = id;
+    }
+
     /**
      * Used to return if a object is new (not saved to the database) which would generate
      * an ID.
